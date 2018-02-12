@@ -23,11 +23,13 @@
   "author": "kienD",
   "license": "MIT",
   "dependencies": {
+    "blessed": "^0.1.81",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-blessed": "^0.2.1"
   },
   "devDependencies": {
+    "autobind-decorator": "^2.1.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.24.1",
