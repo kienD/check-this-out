@@ -1,6 +1,6 @@
 {
   "name": "check-this-out",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "command line interface to switch between recently checked out branches",
   "main": "index.js",
   "scripts": {
@@ -23,8 +23,6 @@
   "author": "kienD",
   "license": "MIT",
   "dependencies": {
-    "autobind-decorator": "^2.1.0",
-    "blessed": "^0.1.81",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-blessed": "^0.2.1"
