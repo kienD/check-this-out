@@ -14,6 +14,10 @@ class SelectableList extends Component {
     this.getBranchItems();
   }
 
+  componentDidMount() {
+    this.refs.list.focus();
+  }
+
   getBranchItems() {
     return formatBranches().then(
       branches => this.setState({branches})
@@ -39,6 +43,7 @@ class SelectableList extends Component {
         keys={true}
         mouse={true}
         onSelect={this.handleSelect}
+        ref="list"
         style={{border: {fg: '#66D9EF'}, selected: {bg: '#FFFFFF', fg: '#000000'}}}
         top={1}
         vi={true}
