@@ -34,15 +34,16 @@ class SelectableList extends Component {
         height='90%'
         interactive={true}
         items={this.state.branches.map(branches => branches.text)}
-        left='0'
+        label="Recently Checked Out Branches"
+        left={1}
         keys={true}
         mouse={true}
         onSelect={this.handleSelect}
-        style={{selected: {bg: '#FFFFFF', fg: '#000000'}}}
-        top='0'
+        style={{border: {fg: '#66D9EF'}, selected: {bg: '#FFFFFF', fg: '#000000'}}}
+        top={1}
         vi={true}
         width='90%'
-        />
+      />
     );
   }
 }

@@ -6,20 +6,16 @@ import SelectableList from './components/SelectableList';
 
 class App extends Component {
   render() {
-    return (
-      <SelectableList />
-    );
+    return <SelectableList />;
   }
 }
 
 const screen = blessed.screen({
   autoPadding: true,
   smartCSR: true,
-  title: 'Git Switch'
+  title: 'Check This Out'
 });
 
 screen.key(['escape', 'q', 'C-c'], (ch, key) => process.exit(0));
 
-render (<App />, screen)
-
-// add minifier
+render (<App />, screen);

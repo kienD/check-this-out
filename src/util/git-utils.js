@@ -12,7 +12,7 @@ export function getGitBranches() {
 
   return new Promise((resolve, reject) => {
     exec(
-      `git for-each-ref --shell --sort=-committerdate --format="refname: %(refname), objectname: %(objectname), authorname: %(authorname), commitdate: %(committerdate), subject: %(subject)"`,
+      `git for-each-ref --shell --sort=-committerdate --format="refname: %(refname), objectname: %(objectname:short), authorname: %(authorname), commitdate: %(committerdate:relative), subject: %(subject)" "refs/heads"`,
       (error, stdout, stderr) => {
         if (error) {
           reject(stderr);
@@ -42,7 +42,7 @@ function createBranchObject(branch) {
 
     retObj.refname = retObj.refname.substr(retObj.refname.lastIndexOf('/') + 1).trim();
 
-    retObj.text = `${retObj.objectname} ${retObj.refname.substr(retObj.refname.lastIndexOf('/') + 1)} ${retObj.subject} ${retObj.authorname}`;
+    retObj.text = `${retObj.refname} - ${retObj.objectname} (${retObj.authorname}) ${retObj.subject}`;
 
     return retObj;
   })
