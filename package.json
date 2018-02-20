@@ -24,9 +24,8 @@
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
-    "lodash": "^4.17.4",
-    "react": "^16.2.0",
-    "react-blessed": "^0.2.1"
+    "blessed-contrib": "^4.8.5",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "autobind-decorator": "^2.1.0",
