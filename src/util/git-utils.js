@@ -2,9 +2,7 @@ import {exec, spawn} from 'child_process';
 import {split} from 'lodash';
 
 export function checkoutBranch(branch) {
-    exec(
-      `git checkout ${branch}`,
-    );
+    exec(`git checkout ${branch}`);
 }
 
 export function getGitBranches() {
