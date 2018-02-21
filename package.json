@@ -1,6 +1,6 @@
 {
   "name": "check-this-out",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "command line interface to switch between recently checked out branches",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "node lib/App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "prepublishOnly": "npm run build",
   "repository": {
     "type": "git",
     "url": "git-https://github.com/kiend/check-this-out.git"
