@@ -5,18 +5,20 @@ import { checkoutBranch, formatBranches } from './util/git-utils';
 const screen = blessed.screen({
   autoPadding: true,
   debug: true,
+  fullUnicode: true,
   smartCSR: true,
-  title: 'Check This Out'
+  title: 'Check This Out',
+  warnings: true
 });
 
 const recentTable = blessed.listtable({
+  align: 'left',
   border: { type: 'line' },
   height: '90%',
   keys: true,
   mouse: true,
   noCellBorders: true,
   pad: 1,
-  ref: 'list',
   style: {
     border: { fg: '#66D9EF' },
     cell: {
@@ -32,6 +34,7 @@ const recentTable = blessed.listtable({
       fg: '#66D9EF'
     }
   },
+  tags: true,
   top: 1,
   vi: true,
   width: 'shrink'
@@ -42,7 +45,11 @@ recentTable.focus();
 formatBranches().then(branches => {
   const formattedBranches = branches.map(
     ({ authorname, commitdate, objectname, refname, subject }) => {
-      return [refname, objectname, `${subject} (${authorname})`];
+      return [
+        `{red-fg}{bold}${refname}{/}`,
+        objectname,
+        `${subject} (${authorname})`
+      ];
     }
   );
 
