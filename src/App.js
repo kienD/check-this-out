@@ -1,44 +1,42 @@
 import blessed from 'blessed';
-import contrib from 'blessed-contrib';
+
+import {exec} from 'child_process';
 
 import {checkoutBranch, formatBranches} from './util/git-utils';
 
-// import React, {Component} from 'react';
-// import {render} from 'react-blessed';
-
-// import SelectableList from './components/SelectableList';
-
-// class App extends Component {
-//   render() {
-//     return <SelectableList />;
-//   }
-// }
-
 const screen = blessed.screen({
   autoPadding: true,
+  debug: true,
   smartCSR: true,
   title: 'Check This Out'
 });
 
-const recentTable = contrib.table({
+const recentTable = blessed.listtable({
   border: {type: 'line'},
-  columnWidth: [20, 10 , 70],
   height: '90%',
-  interactive: true,
   keys: true,
-  label: 'Recently Checked Out Branches',
   mouse: true,
+  noCellBorders: true,
+  pad: 1,
   ref: 'list',
   style: {
     border: {fg: '#66D9EF'},
-    selected: {
-      bg: '#FFFFFF',
-      fg: '#000000'
+    cell: {
+      selected: {
+        bg: '#FFFFFF',
+        fg: '#000000'
+      }
+    },
+    header: {
+      fg: '#66D9EF'
+    },
+    label: {
+      fg: '#66D9EF'
     }
   },
   top: 1,
   vi: true,
-  width: '90%'
+  width: 'shrink'
 });
 
 recentTable.focus();
@@ -47,25 +45,25 @@ formatBranches().then(
   branches => {
     const formattedBranches = branches.map(
       ({authorname, commitdate,  objectname, refname, subject}) => {
-        return [refname, objectname, subject];
+        return [refname, objectname, `${subject} (${authorname})`];
       }
     );
 
-    recentTable.setData({
-      headers: ['Branch', 'SHA', 'Last Commit'],
-      data: formattedBranches
-    });
+    recentTable.setLabel('Recently Checkout Branches');
+
+    recentTable.setData([
+      ['Branch', 'SHA', 'Lastest Commit'],
+      ...formattedBranches
+    ]);
 
     screen.render();
   }
 );
 
-recentTable.on('enter', (val, key) => {
-  console.log(val + key)
-  // recentTable.setLabel({text: 'stuff'})
-  // screen.render();
+recentTable.on('select', (val, key) => {
+  const selectedBranch = val.content.trim().split(' ')[0];
 
-  // checkoutBranch(this.state.branches[key].refname);
+  checkoutBranch(selectedBranch);
 
   return process.exit(0);
 });
@@ -75,5 +73,3 @@ screen.key(['escape', 'q', 'C-c'], (ch, key) => process.exit(0));
 screen.append(recentTable);
 
 screen.render();
-
-// render (<App />, screen);

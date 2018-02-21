@@ -24,7 +24,6 @@
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
-    "blessed-contrib": "^4.8.5",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
