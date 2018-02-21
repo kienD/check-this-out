@@ -1,8 +1,6 @@
 import blessed from 'blessed';
 
-import {exec} from 'child_process';
-
-import {checkoutBranch, formatBranches} from './util/git-utils';
+import { checkoutBranch, formatBranches } from './util/git-utils';
 
 const screen = blessed.screen({
   autoPadding: true,
@@ -12,7 +10,7 @@ const screen = blessed.screen({
 });
 
 const recentTable = blessed.listtable({
-  border: {type: 'line'},
+  border: { type: 'line' },
   height: '90%',
   keys: true,
   mouse: true,
@@ -20,7 +18,7 @@ const recentTable = blessed.listtable({
   pad: 1,
   ref: 'list',
   style: {
-    border: {fg: '#66D9EF'},
+    border: { fg: '#66D9EF' },
     cell: {
       selected: {
         bg: '#FFFFFF',
@@ -41,24 +39,22 @@ const recentTable = blessed.listtable({
 
 recentTable.focus();
 
-formatBranches().then(
-  branches => {
-    const formattedBranches = branches.map(
-      ({authorname, commitdate,  objectname, refname, subject}) => {
-        return [refname, objectname, `${subject} (${authorname})`];
-      }
-    );
+formatBranches().then(branches => {
+  const formattedBranches = branches.map(
+    ({ authorname, commitdate, objectname, refname, subject }) => {
+      return [refname, objectname, `${subject} (${authorname})`];
+    }
+  );
 
-    recentTable.setLabel('Recently Checkout Branches');
+  recentTable.setLabel('Recently Checkout Branches');
 
-    recentTable.setData([
-      ['Branch', 'SHA', 'Lastest Commit'],
-      ...formattedBranches
-    ]);
+  recentTable.setData([
+    ['Branch', 'SHA', 'Lastest Commit'],
+    ...formattedBranches
+  ]);
 
-    screen.render();
-  }
-);
+  screen.render();
+});
 
 recentTable.on('select', (val, key) => {
   const selectedBranch = val.content.trim().split(' ')[0];

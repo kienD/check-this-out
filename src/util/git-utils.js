@@ -1,12 +1,12 @@
-import {exec, spawn} from 'child_process';
-import {split} from 'lodash';
+import { exec } from 'child_process';
+import { split } from 'lodash';
 
 export function checkoutBranch(branch) {
-    exec(`git checkout ${branch}`);
+  exec(`git checkout ${branch}`);
 }
 
 export function getGitBranches() {
-    let retVal;
+  let retVal;
 
   return new Promise((resolve, reject) => {
     exec(
@@ -21,7 +21,7 @@ export function getGitBranches() {
         return stdout;
       }
     );
-  })
+  });
 }
 
 function createBranchObject(branch) {
@@ -31,33 +31,35 @@ function createBranchObject(branch) {
     let retObj = {};
 
     commit.map(val => {
-      const splitVal = split(val, ': ')
+      const splitVal = split(val, ': ');
 
       if (splitVal[1]) {
-        retObj[splitVal[0].trim()] = splitVal[1].slice(1, -1).trim()
+        retObj[splitVal[0].trim()] = splitVal[1].slice(1, -1).trim();
       }
-    })
+    });
 
-    retObj.refname = retObj.refname.substr(retObj.refname.lastIndexOf('/') + 1).trim();
+    retObj.refname = retObj.refname
+      .substr(retObj.refname.lastIndexOf('/') + 1)
+      .trim();
 
-    retObj.text = `${retObj.refname} - ${retObj.objectname} (${retObj.authorname}) ${retObj.subject}`;
+    retObj.text = `${retObj.refname} - ${retObj.objectname} (${
+      retObj.authorname
+    }) ${retObj.subject}`;
 
     return retObj;
-  })
+  });
 
   return retVal;
 }
 
 export function formatBranches() {
-  return getGitBranches().then(
-    data => {
-      const commits = split(data, '\n').filter(commit => commit !== '');
+  return getGitBranches().then(data => {
+    const commits = split(data, '\n').filter(commit => commit !== '');
 
-      let retVal = createBranchObject(commits);
+    let retVal = createBranchObject(commits);
 
-      return retVal;
-    }
-  );
+    return retVal;
+  });
 }
 
-formatBranches()
+formatBranches();
