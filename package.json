@@ -1,6 +1,6 @@
 {
   "name": "check-this-out",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.5",
   "description": "command line interface to switch between recently checked out branches",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "prepublishOnly": "npm run build",
   "repository": {
     "type": "git",
-    "url": "git-https://github.com/kiend/check-this-out.git"
+    "url": "git+https://github.com/kiend/check-this-out.git"
   },
   "bin": {
     "cto": "index.js"
