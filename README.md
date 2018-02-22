@@ -17,6 +17,8 @@ If you installed from the npm store you can use `cto` to display your most recen
 If you built the package yourself you can create an alias `alias cto=/path/to/index.js` or symlink `index.js` to your `bin`.
 
 ### Key Commands
-*****Enter**           | Select Branch
+**Enter**           | Select Branch
+
 **j/k, down/up**    | Navigate between branches
+
 **q, esc, Cc**      | Exit Check This Out
