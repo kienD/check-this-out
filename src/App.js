@@ -13,14 +13,12 @@ const screen = blessed.screen({
 
 const recentTable = blessed.listtable({
   align: 'left',
-  border: { type: 'line' },
   height: '90%',
   keys: true,
   mouse: true,
   noCellBorders: true,
   pad: 1,
   style: {
-    border: { fg: '#66D9EF' },
     cell: {
       selected: {
         bg: '#FFFFFF',
