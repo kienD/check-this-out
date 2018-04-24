@@ -15,12 +15,16 @@ export function checkoutBranch(branch) {
   return git('checkout', branch);
 }
 
+export function gitStatus() {
+  return git('status', '--short');
+}
+
 export function getGitBranches() {
   return git(
     'for-each-ref',
     '--shell',
     '--sort=-committerdate',
-    '--format=refname: %(refname), objectname: %(objectname:short), authorname: %(authorname), commitdate: %committerdate:relative), subject: %(subject)',
+    '--format=refname: %(refname), objectname: %(objectname:short), authorname: %(authorname), commitdate: %(committerdate:relative), subject: %(subject)',
     'refs/heads'
   );
 }
@@ -47,20 +51,21 @@ function createBranchObject(branch) {
       retObj.authorname
     }) ${retObj.subject}`;
 
-    return retObj;
+    return formatBranch(retObj);
   });
 
   return retVal;
 }
 
-export function formatBranches() {
+export function fetchBranches() {
   return getGitBranches().then(data => {
-    const commits = split(data, '\n').filter(commit => commit !== '');
+    const branches = split(data, '\n').filter(branch => branch !== '');
 
-    let retVal = createBranchObject(commits);
-
-    return retVal;
+    return createBranchObject(branches);
   });
 }
+export function formatBranch(branch) {
+  const { authorname, commitdate, objectname, refname, subject } = branch;
 
-formatBranches();
+  return [refname, objectname, `${subject} (${commitdate}) - ${authorname}`];
+}

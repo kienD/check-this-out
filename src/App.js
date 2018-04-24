@@ -1,6 +1,6 @@
 import blessed from 'blessed';
 
-import { checkoutBranch, formatBranches } from './util/git-utils';
+import { checkoutBranch, fetchBranches } from './util/git-utils';
 
 const screen = blessed.screen({
   autoPadding: true,
@@ -40,22 +40,12 @@ const recentTable = blessed.listtable({
 
 recentTable.focus();
 
-formatBranches().then(branches => {
-  const formattedBranches = branches.map(
-    ({ authorname, commitdate, objectname, refname, subject }) => {
-      return [
-        refname,
-        objectname,
-        `${subject} (${commitdate}) - ${authorname}`
-      ];
-    }
-  );
-
-  recentTable.setLabel('Recently Checkout Branches');
+fetchBranches().then(branches => {
+  recentTable.setLabel('Most Recent Branches');
 
   recentTable.setData([
     ['Branch', 'SHA', 'Lastest Commit'],
-    ...formattedBranches
+    ...branches
   ]);
 
   screen.render();
