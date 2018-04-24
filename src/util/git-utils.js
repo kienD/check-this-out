@@ -1,27 +1,28 @@
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import { split } from 'lodash';
 
+function git(...args) {
+  return new Promise((resolve, reject) => {
+    const child = spawn('git', args);
+
+    child.stdout.on('data', data => resolve(data.toString()));
+
+    child.stderr.on('data', stderr => reject(stderr.toString()));
+  });
+}
+
 export function checkoutBranch(branch) {
-  exec(`git checkout ${branch}`);
+  return git('checkout', branch);
 }
 
 export function getGitBranches() {
-  let retVal;
-
-  return new Promise((resolve, reject) => {
-    exec(
-      `git for-each-ref --shell --sort=-committerdate --format="refname: %(refname), objectname: %(objectname:short), authorname: %(authorname), commitdate: %(committerdate:relative), subject: %(subject)" "refs/heads"`,
-      (error, stdout, stderr) => {
-        if (error) {
-          reject(stderr);
-        } else {
-          resolve(stdout);
-        }
-
-        return stdout;
-      }
-    );
-  });
+  return git(
+    'for-each-ref',
+    '--shell',
+    '--sort=-committerdate',
+    '--format=refname: %(refname), objectname: %(objectname:short), authorname: %(authorname), commitdate: %committerdate:relative), subject: %(subject)',
+    'refs/heads'
+  );
 }
 
 function createBranchObject(branch) {
