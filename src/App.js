@@ -43,7 +43,11 @@ recentTable.focus();
 formatBranches().then(branches => {
   const formattedBranches = branches.map(
     ({ authorname, commitdate, objectname, refname, subject }) => {
-      return [refname, objectname, `${subject} (${commitdate}) - ${authorname}`];
+      return [
+        refname,
+        objectname,
+        `${subject} (${commitdate}) - ${authorname}`
+      ];
     }
   );
 
