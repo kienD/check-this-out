@@ -5,9 +5,9 @@ function git(...args) {
   return new Promise((resolve, reject) => {
     const child = spawn('git', args);
 
-    child.stdout.on('data', data => resolve(data.toString()));
-
-    child.stderr.on('data', stderr => reject(stderr.toString()));
+    child.stdout.on('data', (data = '') => resolve(data.toString()));
+    child.stderr.on('data', (stderr = '') => reject(stderr.toString()));
+    child.stderr.on('end', (data = '') => resolve(data.toString()));
   });
 }
 
