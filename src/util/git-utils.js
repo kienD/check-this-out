@@ -5,18 +5,18 @@ function git(...args) {
   return new Promise((resolve, reject) => {
     const child = spawn('git', args);
 
-    child.stdout.on('data', (data = '') => resolve(data.toString()));
     child.stderr.on('data', (stderr = '') => reject(stderr.toString()));
-    child.stderr.on('end', (data = '') => resolve(data.toString()));
+    child.stdout.on('data', (data = '') => resolve(data.toString()));
+    child.stdout.on('end', (data = '') => resolve(data.toString()));
   });
 }
 
 export function checkoutBranch(branch) {
-  return git('checkout', branch);
+  return git('checkout', '--quiet', branch);
 }
 
 export function gitStatus() {
-  return git('status', '--short');
+  return git('status', '--porcelain');
 }
 
 export function getGitBranches() {
