@@ -1,6 +1,6 @@
 import blessed from 'blessed';
 
-import { checkoutBranch, fetchBranches } from './util/git-utils';
+import { checkoutBranch, fetchBranches, gitStatus } from './util/git-utils';
 
 const screen = blessed.screen({
   autoPadding: true,
@@ -38,25 +38,46 @@ const recentTable = blessed.listtable({
   width: 'shrink'
 });
 
-recentTable.focus();
+var msg = blessed.message({
+  parent: screen,
+  border: 'line',
+  height: 'shrink',
+  width: 'half',
+  top: 'center',
+  left: 'center',
+  label: ' {blue-fg}Message{/blue-fg} ',
+  tags: true,
+  keys: true,
+  hidden: true,
+  vi: true
+});
 
-fetchBranches().then(branches => {
-  recentTable.setLabel('Most Recent Branches');
+gitStatus().then(status => {
+  if (status) {
+    msg.display(
+      `You have the following uncommited changes:\n ${status}`,
+      0,
+      () => process.exit(0)
+    );
+  } else {
+    recentTable.focus();
 
-  recentTable.setData([
-    ['Branch', 'SHA', 'Lastest Commit'],
-    ...branches
-  ]);
+    screen.render();
 
-  screen.render();
+    fetchBranches().then(branches => {
+      recentTable.setLabel('Most Recent Branches');
+
+      recentTable.setData([['Branch', 'SHA', 'Lastest Commit'], ...branches]);
+
+      screen.render();
+    });
+  }
 });
 
 recentTable.on('select', (val, key) => {
   const selectedBranch = val.content.trim().split(' ')[0];
 
-  checkoutBranch(selectedBranch);
-
-  return process.exit(0);
+  checkoutBranch(selectedBranch).then(() => process.exit(0));
 });
 
 screen.key(['escape', 'q', 'C-c'], (ch, key) => process.exit(0));
