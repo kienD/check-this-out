@@ -14,6 +14,7 @@ const screen = blessed.screen({
 const recentTable = blessed.listtable({
   align: 'left',
   height: '90%',
+  hidden: true,
   keys: true,
   mouse: true,
   noCellBorders: true,
@@ -45,39 +46,63 @@ var msg = blessed.message({
   width: 'half',
   top: 'center',
   left: 'center',
-  label: ' {blue-fg}Message{/blue-fg} ',
+  label: ' {red-fg}Error{/red-fg} ',
   tags: true,
   keys: true,
   hidden: true,
   vi: true
 });
 
-gitStatus().then(status => {
-  if (status) {
-    msg.display(
-      `You have the following uncommited changes:\n ${status}`,
-      0,
-      () => process.exit(0)
-    );
-  } else {
-    recentTable.focus();
-
-    screen.render();
-
-    fetchBranches().then(branches => {
-      recentTable.setLabel('Most Recent Branches');
-
-      recentTable.setData([['Branch', 'SHA', 'Lastest Commit'], ...branches]);
+gitStatus()
+  .then(status => {
+    if (status) {
+      msg.display(
+        `You have the following uncommited changes:\n ${status}`,
+        0,
+        () => process.exit(0)
+      );
+    } else {
+      recentTable.show();
+      recentTable.focus();
 
       screen.render();
-    });
-  }
-});
+
+      fetchBranches()
+        .then(branches => {
+          recentTable.setLabel('Most Recent Branches');
+
+          recentTable.setData([
+            ['Branch', 'SHA', 'Lastest Commit'],
+            ...branches
+          ]);
+
+          screen.render();
+        })
+        .catch(err => {
+          msg.display(`The following error occured:\n ${err}`, 0, () =>
+            process.exit(0)
+          );
+        });
+    }
+  })
+  .catch(err => {
+    msg.display(`The following error occured:\n ${err}`, 0, () =>
+      process.exit(0)
+    );
+  });
 
 recentTable.on('select', (val, key) => {
   const selectedBranch = val.content.trim().split(' ')[0];
 
-  checkoutBranch(selectedBranch).then(() => process.exit(0));
+  checkoutBranch(selectedBranch)
+    .then(() => process.exit(0))
+    .catch(err => {
+      recentTable.destroy();
+
+      msg.display(`The following error occured:\n ${err}`, 0, () =>
+        process.exit(0)
+      );
+    });
 });
 
 screen.key(['escape', 'q', 'C-c'], (ch, key) => process.exit(0));
