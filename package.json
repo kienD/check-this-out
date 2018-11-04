@@ -1,6 +1,6 @@
 {
   "name": "check-this-out",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "command line interface to switch between recently checked out branches",
   "files": [
     "lib",
