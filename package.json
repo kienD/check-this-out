@@ -1,9 +1,11 @@
 {
   "name": "check-this-out",
-  "version": "1.0.2",
-  "description":
-    "command line interface to switch between recently checked out branches",
-  "files": ["lib", "src"],
+  "version": "1.0.3",
+  "description": "command line interface to switch between recently checked out branches",
+  "files": [
+    "lib",
+    "src"
+  ],
   "main": "index.js",
   "scripts": {
     "build": "babel src -d lib",
@@ -22,7 +24,13 @@
   "engines": {
     "node": ">=4"
   },
-  "keywords": ["git", "github", "cli", "checkout", "git-checkout"],
+  "keywords": [
+    "git",
+    "github",
+    "cli",
+    "checkout",
+    "git-checkout"
+  ],
   "author": "kienD (https://github.com/kienD)",
   "license": "MIT",
   "dependencies": {
