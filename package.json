@@ -1,11 +1,9 @@
 {
   "name": "check-this-out",
   "version": "1.0.2",
-  "description": "command line interface to switch between recently checked out branches",
-  "files": [
-    "lib",
-    "src"
-  ],
+  "description":
+    "command line interface to switch between recently checked out branches",
+  "files": ["lib", "src"],
   "main": "index.js",
   "scripts": {
     "build": "babel src -d lib",
@@ -13,7 +11,7 @@
     "start": "node lib/App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "prepublishOnly": "npm run build",
+  "prepare": "babel src -d lib",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kiend/check-this-out.git"
@@ -24,13 +22,7 @@
   "engines": {
     "node": ">=4"
   },
-  "keywords": [
-    "git",
-    "github",
-    "cli",
-    "checkout",
-    "git-checkout"
-  ],
+  "keywords": ["git", "github", "cli", "checkout", "git-checkout"],
   "author": "kienD (https://github.com/kienD)",
   "license": "MIT",
   "dependencies": {
