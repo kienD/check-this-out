@@ -1,11 +1,11 @@
 {
   "name": "check-this-out",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "command line interface to switch between recently checked out branches",
-	"files": [
-		"lib",
-		"src"
-	],
+  "files": [
+    "lib",
+    "src"
+  ],
   "main": "index.js",
   "scripts": {
     "build": "babel src -d lib",
