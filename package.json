@@ -1,17 +1,20 @@
 {
   "name": "check-this-out",
   "version": "1.0.3",
-  "description":
-    "command line interface to switch between recently checked out branches",
-  "files": ["lib", "src"],
+  "description": "command line interface to switch between recently checked out branches",
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
   "main": "index.js",
   "scripts": {
     "build": "babel src -d lib",
     "format": "prettier --write 'src/**/*.js'",
+    "prepublishOnly": "npm run build",
     "start": "node lib/App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "prepublishOnly": "npm run build",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kiend/check-this-out.git"
