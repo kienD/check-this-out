@@ -22,6 +22,7 @@ export function gitStatus() {
 export function getGitBranches() {
   return git(
     'for-each-ref',
+    '--count=50',
     '--shell',
     '--sort=-committerdate',
     '--format=refname: %(refname), objectname: %(objectname:short), authorname: %(authorname), commitdate: %(committerdate:relative), subject: %(subject)',
